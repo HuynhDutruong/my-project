@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Phản Hồi</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f4f4f9; }
+        .header { background-color: #2c3e50; color: white; padding: 1rem; text-align: center; }
+        .footer { background-color: #2c3e50; color: white; padding: 1rem; text-align: center; margin-top: 2rem; }
+        .highlight { color: #ffd700; font-weight: bold; }
+        .contact { font-size: 0.9rem; }
+        #classField { display: none; }
+        input[type="file"] {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .file-limit-message {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 0.9rem;
+            display: none;
+            margin-bottom: 0.5rem;
+        }
+        .file-list {
+            margin-bottom: 1rem;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .remove-file {
+            color: #dc2626;
+            cursor: pointer;
+        }
+        .loading {
+            display: none;
+            color: #2563eb;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .back-btn {
+            display: inline-block;
+            background-color: #6b7280;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s;
+        }
+        .back-btn:hover {
+            background-color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="text-2xl font-bold">Gửi Phản Hồi</h1>
+        <p>Giáo Xứ Chánh Tòa Mỹ Tho</p>
+    </div>
+    <div class="container mx-auto p-6">
+        <button onclick="history.back()" class="back-btn">Quay Lại</button>
+        <form id="feedbackForm" action="https://formsubmit.co/notification2411.huynhdutruong@gmail.com" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Kính gửi: Đại Diện Đoàn TNTT Giáo Xứ Chánh Tòa Mỹ Tho</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700">Họ và tên (Tên Thánh):</label>
+                <input type="text" name="name" required class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Ngày/tháng/năm sinh:</label>
+                <input type="date" name="dob" required class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Đối tượng:</label>
+                <input type="radio" name="role" value="Phụ Huynh" required> Phụ Huynh
+                <input type="radio" name="role" value="Thiếu Nhi" id="child"> Thiếu Nhi
+                <input type="radio" name="role" value="Khác"> Khác
+            </div>
+            <div class="mb-4" id="classField">
+                <label class="block text-gray-700">Lớp:</label>
+                <input type="text" name="class" class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Phản hồi (dưới 300 chữ):</label>
+                <textarea name="feedback" maxlength="300" required class="w-full p-2 border rounded"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Tải lên hình ảnh hoặc tài liệu (nếu có, tối đa 6 tệp, định dạng .pdf, .png, .docx):</label>
+                <p class="file-limit-message">Mỗi tệp tối đa 2MB, tổng cộng không vượt quá 10MB.</p>
+                <p id="error-message" class="error-message">Vui lòng chọn tối đa 6 tệp hoặc kiểm tra dung lượng tệp.</p>
+                <input type="file" name="attachment[]" id="fileInput" accept=".pdf,.png,.docx" multiple class="w-full">
+                <div id="fileList" class="file-list"></div>
+            </div>
+            <div class="mb-4">
+                <input type="checkbox" name="confirm" required> Tôi xác nhận thông tin trên là chính xác
+            </div>
+            <button type="submit" class="bg-blue-600 text-white p-2 rounded">Nộp</button>
+            <div id="loading" class="loading">Đang gửi...</div>
+            <input type="hidden" name="_subject" value="Phản Hồi Mới">
+            <input type="hidden" name="_next" value="http://yourdomain.com/thank-you.html">
+        </form>
+    </div>
+    <div class="footer">
+        <p class="highlight">Bản quyền © 2024 - Xứ Đoàn Các Thánh Tử Đạo Việt Nam</p>
+        <p>Giáo Xứ Chánh Tòa Mỹ Tho - Giáo Phận Mỹ Tho - Việt Nam</p>
+        <p class="contact">Địa chỉ: 32 Hùng Vương, Phường 1, Thành phố Mỹ Tho, Tỉnh Tiền Giang</p>
+        <p>Thiết kế bởi: <span class="highlight">Ban Truyền Thông & Ban Kỹ Thuật</span> - Trưởng Pr.Le.G.Huy</p>
+    </div>
+    <script>
+        document.getElementById('child').addEventListener('change', function() {
+            document.getElementById('classField').style.display = this.checked ? 'block' : 'none';
+        });
+
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const errorMessage = document.getElementById('error-message');
+        const form = document.getElementById('feedbackForm');
+        const loading = document.getElementById('loading');
+
+        fileInput.addEventListener('change', function() {
+            fileList.innerHTML = ''; // Xóa danh sách cũ
+            const files = Array.from(this.files);
+            let totalSize = 0;
+            const maxFiles = 6;
+            const maxFileSizeMB = 2; // 2MB mỗi tệp
+            const maxTotalSizeMB = 10; // 10MB tổng cộng
+
+            // Tính tổng dung lượng và kiểm tra
+            files.forEach(file => {
+                totalSize += file.size / (1024 * 1024); // Chuyển sang MB
+            });
+
+            // Kiểm tra số lượng và dung lượng
+            if (files.length > maxFiles || totalSize > maxTotalSizeMB || files.some(file => file.size / (1024 * 1024) > maxFileSizeMB)) {
+                errorMessage.style.display = 'block';
+                this.value = ''; // Xóa tệp đã chọn
+                fileList.innerHTML = '';
+                return;
+            } else {
+                errorMessage.style.display = 'none';
+            }
+
+            // Hiển thị danh sách tệp
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span>${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
+                    <span class="remove-file" data-index="${index}">Xóa</span>
+                `;
+                fileList.appendChild(fileItem);
+            });
+
+            // Xử lý xóa tệp
+            fileList.querySelectorAll('.remove-file').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    const newFiles = files.filter((_, i) => i !== parseInt(index));
+                    const dt = new DataTransfer();
+                    newFiles.forEach(file => dt.items.add(file));
+                    fileInput.files = dt.files;
+                    fileInput.dispatchEvent(new Event('change'));
+                });
+            });
+        });
+
+        form.addEventListener('submit', function() {
+            loading.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

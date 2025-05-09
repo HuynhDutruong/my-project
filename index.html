@@ -68,12 +68,38 @@
             max-height: 300px;
             overflow-y: auto;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-start;
         }
-        .info-box p {
+        .info-text {
+            flex: 2;
+            min-width: 200px;
+        }
+        .info-text p {
             font-size: 1rem;
             color: #1A1A1A;
             margin-bottom: 0.5rem;
             text-align: left;
+        }
+        .info-image {
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+        .info-image img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #A6192E;
+            border-radius: 5px;
+        }
+        .image-caption {
+            font-family: 'Merriweather', serif;
+            font-size: 0.9rem;
+            color: #A6192E;
+            text-align: center;
+            margin-top: 0.5rem;
         }
         .footer {
             background-color: #1A1A1A;
@@ -105,6 +131,13 @@
             .container {
                 padding: 0 0.75rem;
             }
+            .info-box {
+                flex-direction: column;
+                align-items: center;
+            }
+            .info-image {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -122,7 +155,13 @@
             <a href="info.html" class="btn">THÔNG TIN</a>
         </div>
         <div class="info-box" id="infoContent">
-            <p>Đang tải thông tin...</p>
+            <div class="info-text">
+                <p>Đang tải thông tin...</p>
+            </div>
+            <div class="info-image">
+                <img src="pope_leo_xiv.jpg" alt="Đức Giáo Hoàng Leo XIV">
+                <div class="image-caption">ĐỨC GIÁO HOÀNG LEO XIV</div>
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -139,26 +178,29 @@
             })
             .then(data => {
                 const infoContent = document.getElementById('infoContent');
-                infoContent.innerHTML = '';
+                const textDiv = infoContent.querySelector('.info-text');
+                textDiv.innerHTML = '';
                 const rows = data.split('\n').filter(row => row.trim() !== '');
                 if (rows.length === 0) {
-                    infoContent.innerHTML = '<p>Không có thông tin để hiển thị.</p>';
+                    textDiv.innerHTML = '<p>Không có thông tin để hiển thị.</p>';
                 } else {
                     rows.forEach(row => {
                         const text = row.trim().replace(/^"|"$/g, '');
                         if (text) {
                             const p = document.createElement('p');
                             p.textContent = text;
-                            infoContent.appendChild(p);
+                            textDiv.appendChild(p);
                         }
                     });
                 }
             })
             .catch(error => {
                 console.error('Lỗi khi tải CSV:', error);
-                document.getElementById('infoContent').innerHTML = '<p>Không thể tải thông tin. Vui lòng kiểm tra file text.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>';
+                const textDiv = document.getElementById('infoContent').querySelector('.info-text');
+                textDiv.innerHTML = '<p>Không thể tải thông tin. Vui lòng kiểm tra file text.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>';
             });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c9ef1a2e246785',t:'MTc0NjcxNzU1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93cdfb65c907457e',t:'MTc0Njc1OTk5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

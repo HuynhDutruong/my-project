@@ -59,6 +59,8 @@
             font-weight: 500;
             font-size: 1rem;
             transition: color 0.3s, text-shadow 0.3s;
+            padding: 0.5rem;
+            display: inline-block;
         }
         .nav-bar a:hover {
             color: #FFD700;
@@ -110,6 +112,7 @@
             padding: 1rem;
             border-radius: 5px;
             text-align: center;
+            font-size: 1rem;
         }
         .carousel-btn {
             position: absolute;
@@ -135,9 +138,18 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .video-section iframe {
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 400px;
+            height: 100%;
             border: none;
             border-radius: 8px;
         }
@@ -189,6 +201,8 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
+            display: inline-block;
+            padding: 0.25rem 0;
         }
         .sidebar a:hover {
             color: #FFD700;
@@ -216,10 +230,12 @@
             color: #1A1A1A;
             margin-bottom: 0.75rem;
             text-align: left;
+            line-height: 1.6;
         }
         .info-image {
             flex: 1;
             min-width: 200px;
+            max-width: 300px;
         }
         .info-image img {
             width: 100%;
@@ -237,7 +253,7 @@
         .footer {
             background-color: #1A1A1A;
             color: #FFFFFF;
-            padding: 2rem;
+            padding: 2rem 1rem;
             text-align: center;
             box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
             margin-top: auto;
@@ -263,6 +279,7 @@
             border-radius: 5px;
             margin-right: 0.5rem;
             width: 200px;
+            max-width: 70%;
         }
         .newsletter button {
             background-color: #A6192E;
@@ -284,31 +301,34 @@
             font-size: 0.9rem;
             color: #D1D5DB;
         }
-        .back-btn {
-            display: inline-block;
-            background-color: #A6192E;
-            color: #FFFFFF;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
-            margin-bottom: 1rem;
-        }
-        .back-btn:hover {
-            background-color: #8B1625;
-        }
+
+        /* Responsive Adjustments */
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
+                padding: 0 1rem;
             }
             .sidebar {
                 width: 100%;
             }
+            .carousel-item img {
+                height: 350px;
+            }
+            .carousel-caption {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+            .nav-bar li {
+                margin: 0 1rem;
+            }
         }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 1.5rem;
+            }
+            .header p {
+                font-size: 0.9rem;
             }
             .nav-bar ul {
                 flex-direction: column;
@@ -317,18 +337,141 @@
             .nav-bar li {
                 margin: 0.5rem 0;
             }
+            .nav-bar a {
+                font-size: 0.95rem;
+                padding: 0.75rem;
+            }
             .carousel-item img {
                 height: 250px;
             }
-            .video-section iframe {
-                height: 250px;
+            .carousel-caption {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+                bottom: 0.5rem;
+                left: 0.5rem;
+                right: 0.5rem;
+            }
+            .carousel-btn {
+                font-size: 1.2rem;
+                padding: 0.3rem;
+            }
+            .video-section {
+                padding: 1rem;
+            }
+            .news-card h3 {
+                font-size: 1.1rem;
+            }
+            .news-card {
+                padding: 0.75rem;
             }
             .info-box {
                 flex-direction: column;
                 align-items: center;
+                padding: 1rem;
+                max-height: 500px;
+            }
+            .info-text p {
+                font-size: 0.95rem;
             }
             .info-image {
-                width: 100%;
+                max-width: 250px;
+            }
+            .image-caption {
+                font-size: 0.85rem;
+            }
+            .sidebar h3 {
+                font-size: 1.1rem;
+            }
+            .sidebar a {
+                font-size: 0.95rem;
+            }
+            .footer {
+                padding: 1.5rem 0.5rem;
+            }
+            .footer p {
+                font-size: 0.9rem;
+            }
+            .footer .social-icons a {
+                font-size: 1.3rem;
+                margin: 0 0.5rem;
+            }
+            .newsletter input {
+                max-width: 60%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+            .header p {
+                font-size: 0.85rem;
+            }
+            .nav-bar a {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+            .container {
+                padding: 0 0.5rem;
+                margin: 1rem auto;
+            }
+            .carousel-item img {
+                height: 200px;
+            }
+            .carousel-caption {
+                font-size: 0.75rem;
+                padding: 0.3rem;
+                bottom: 0.3rem;
+                left: 0.3rem;
+                right: 0.3rem;
+            }
+            .carousel-btn {
+                font-size: 1rem;
+                padding: 0.2rem;
+            }
+            .video-section {
+                padding: 0.75rem;
+            }
+            .news-card h3 {
+                font-size: 1rem;
+            }
+            .news-card {
+                padding: 0.5rem;
+                margin-bottom: 0.75rem;
+            }
+            .info-box {
+                padding: 0.75rem;
+            }
+            .info-text p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            .info-image {
+                max-width: 200px;
+            }
+            .image-caption {
+                font-size: 0.8rem;
+            }
+            .sidebar h3 {
+                font-size: 1rem;
+            }
+            .sidebar a {
+                font-size: 0.9rem;
+            }
+            .footer p {
+                font-size: 0.85rem;
+            }
+            .footer .social-icons a {
+                font-size: 1.2rem;
+                margin: 0 0.4rem;
+            }
+            .newsletter input {
+                max-width: 50%;
+                font-size: 0.85rem;
+            }
+            .newsletter button {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -370,7 +513,9 @@
             </div>
             <div class="video-section">
                 <h3 class="font-semibold text-lg mb-4">Video</h3>
-                <iframe src="https://www.youtube.com/embed/aEMwyzyWKDE?si=aGlAttMqGK6UdbaN" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/aEMwyzyWKDE?si=aGlAttMqGK6UdbaN" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
             </div>
             <div class="news-section" id="newsContent">
                 <h3 class="font-semibold text-lg mb-4">Tin Tức Mới Nhất</h3>

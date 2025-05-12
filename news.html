@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin Tức - Giáo Xứ Chánh Tòa Mỹ Tho</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F5F5F5;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #1A1A1A;
+        }
+        .header {
+            background-color: #A6192E;
+            color: #FFFFFF;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .header p {
+            font-size: 1rem;
+        }
+        .nav-bar {
+            background-color: #1A1A1A;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .nav-bar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-bar li {
+            margin: 0 1.5rem;
+        }
+        .nav-bar a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .nav-bar a:hover {
+            color: #FFD700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+        .news-detail {
+            background: #FFFFFF;
+            border: 1px solid #D3D3D3;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .news-detail h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            color: #A6192E;
+            margin-bottom: 1rem;
+        }
+        .news-detail p {
+            font-size: 1rem;
+            color: #1A1A1A;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .news-detail ul {
+            list-style: disc;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .news-detail li {
+            font-size: 1rem;
+            color: #1A1A1A;
+            line-height: 1.6;
+        }
+        .news-detail h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.25rem;
+            color: #A6192E;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .news-detail a {
+            color: #A6192E;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        .news-detail a:hover {
+            color: #FFD700;
+        }
+        .footer {
+            background-color: #1A1A1A;
+            color: #FFFFFF;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
+            margin-top: auto;
+        }
+        .footer .social-icons {
+            margin: 1rem 0;
+        }
+        .footer .social-icons a {
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            margin: 0 0.75rem;
+            transition: color 0.2s;
+        }
+        .footer .social-icons a:hover {
+            color: #FFD700;
+        }
+        .newsletter {
+            margin: 1rem 0;
+        }
+        .newsletter input {
+            padding: 0.5rem;
+            border: 1px solid #D3D3D3;
+            border-radius: 5px;
+            margin-right: 0.5rem;
+            width: 200px;
+        }
+        .newsletter button {
+            background-color: #A6192E;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .newsletter button:hover {
+            background-color: #8B1625;
+        }
+        .highlight {
+            color: #FFD700;
+            font-weight: 500;
+        }
+        .contact {
+            font-size: 0.9rem;
+            color: #D1D5DB;
+        }
+        .back-btn {
+            display: inline-block;
+            background-color: #A6192E;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            margin-bottom: 1rem;
+        }
+        .back-btn:hover {
+            background-color: #8B1625;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .nav-bar ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-bar li {
+                margin: 0.5rem 0;
+            }
+            .news-detail h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>XỨ ĐOÀN CÁC THÁNH TỬ ĐẠO VIỆT NAM</h1>
+        <p>Giáo Xứ Chánh Tòa Mỹ Tho</p>
+    </div>
+    <nav class="nav-bar">
+        <ul>
+            <li><a href="report.html">GỬI PHẢN HỒI</a></li>
+            <li><a href="aaw.html">THẮC MẮC</a></li>
+            <li><a href="mass.html">GIỜ LỄ</a></li>
+            <li><a href="info.html">THÔNG TIN</a></li>
+            <li><a href="https://m.me/tnttchanhtoamytho">NHẮN TIN</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="news-detail" id="newsDetail">
+            <a href="index.html" class="back-btn">Quay Lại</a>
+            <h2>Đang tải tin tức...</h2>
+            <p>Vui lòng chờ...</p>
+        </div>
+    </div>
+    <div class="footer">
+        <p class="highlight">Bản quyền © 2024 - Xứ Đoàn Các Thánh Tử Đạo Việt Nam</p>
+        <p>Giáo Xứ Chánh Tòa Mỹ Tho - Giáo Phận Mỹ Tho - Việt Nam</p>
+        <p class="contact">Địa chỉ: 32 Hùng Vương, Phường 1, Thành phố Mỹ Tho, Tỉnh Tiền Giang</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/tnttchanhtoamytho/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://m.me/tnttchanhtoamytho" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
+        
+        <p>Thiết kế bởi: <span class="highlight">Ban Truyền Thông & Ban Kỹ Thuật - Trưởng Pr.Le.G.Huy</span></p>
+    </div>
+    <script>
+        // Function to format content (convert newlines, detect lists, headings, links)
+        function formatContent(content) {
+            if (!content) return '<p>Nội dung không khả dụng.</p>';
+
+            // Split content into lines
+            const lines = content.split('\n').map(line => line.trim());
+            let html = '';
+            let inList = false;
+
+            lines.forEach(line => {
+                if (!line) {
+                    // Empty line: add paragraph break
+                    html += '<p></p>';
+                    inList = false;
+                    return;
+                }
+
+                // Detect numbered list items (e.g., "1. Thầy Ignatiô...")
+                if (/^\d+\.\s/.test(line)) {
+                    if (!inList) {
+                        html += '<ul>';
+                        inList = true;
+                    }
+                    html += `<li>${line.replace(/^\d+\.\s/, '')}</li>`;
+                    return;
+                } else if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+
+                // Detect headings (e.g., "1. Bí tích Thánh tẩy...")
+                if (/^\d+\.\s[A-ZĐÀÁẢÃẠÂẦẤẨẪẬĂẰẮẲẴẶÈÉẺẼẸÊỀẾỂỄỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴ].+/.test(line)) {
+                    html += `<h3>${line}</h3>`;
+                    return;
+                }
+
+                // Detect footnotes (e.g., "[1] Synthesis Report...")
+                if (/^\[\d+\]/.test(line)) {
+                    html += `<p class="text-sm">${line}</p>`;
+                    return;
+                }
+
+                // Convert URLs to clickable links
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                line = line.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+
+                // Add line as paragraph
+                html += `<p>${line}</p>`;
+            });
+
+            if (inList) html += '</ul>';
+            return html;
+        }
+
+        // Get news ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = parseInt(urlParams.get('id'));
+
+        // Fetch and parse news from CSV using PapaParse
+        fetch('news.csv')
+            .then(response => {
+                if (!response.ok) throw new Error('Không tìm thấy file news.csv');
+                return response.text();
+            })
+            .then(data => {
+                Papa.parse(data, {
+                    header: true,
+                    skipEmptyLines: true,
+                    encoding: 'UTF-8',
+                    complete: (result) => {
+                        const newsDetail = document.getElementById('newsDetail');
+                        const articles = result.data;
+
+                        if (!articles || isNaN(newsId) || newsId < 0 || newsId >= articles.length) {
+                            newsDetail.innerHTML = `
+                                <a href="index.html" class="back-btn">Quay Lại</a>
+                                <h2>Tin Tức Không Tồn Tại</h2>
+                                <p>Không tìm thấy bài viết. Vui lòng quay lại trang chủ.</p>
+                            `;
+                        } else {
+                            const article = articles[newsId];
+                            const title = article.title || 'Không có tiêu đề';
+                            const content = article.content || '';
+                            newsDetail.innerHTML = `
+                                <a href="index.html" class="back-btn">Quay Lại</a>
+                                <h2>${title}</h2>
+                                ${formatContent(content)}
+                            `;
+                        }
+                    },
+                    error: (err) => {
+                        console.error('Lỗi khi phân tích news.csv:', err);
+                        const newsDetail = document.getElementById('newsDetail');
+                        newsDetail.innerHTML = `
+                            <a href="index.html" class="back-btn">Quay Lại</a>
+                            <h2>Lỗi Tải Tin Tức</h2>
+                            <p>Không thể tải tin tức. Vui lòng kiểm tra file news.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>
+                        `;
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Lỗi khi tải news.csv:', error);
+                const newsDetail = document.getId('newsDetail');
+                newsDetail.innerHTML = `
+                    <a href="index.html" class="back-btn">Quay Lại</a>
+                    <h2>Lỗi Tải Tin Tức</h2>
+                    <p>Không thể tải tin tức. Vui lòng kiểm tra file news.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>
+                `;
+            });
+    </script>
+</body>
+</html>

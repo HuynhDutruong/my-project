@@ -6,6 +6,8 @@
     <title>Hệ Thống Giáo Xứ Chánh Tòa Mỹ Tho</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -22,92 +24,257 @@
             padding: 1rem;
             text-align: center;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .header h1 {
             font-family: 'Merriweather', serif;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
         }
         .header p {
             font-size: 1rem;
         }
-        .container {
-            max-width: 800px;
-            margin: 1.5rem auto;
-            padding: 0 1rem;
-            text-align: center;
-            flex: 1;
+        .nav-bar {
+            background-color: #1A1A1A;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        .btn {
-            background-color: #A6192E;
+        .nav-bar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-bar li {
+            margin: 0 1.5rem;
+        }
+        .nav-bar a {
             color: #FFFFFF;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
             text-decoration: none;
-            display: inline-block;
-            margin: 0.5rem;
             font-family: 'Roboto', sans-serif;
             font-weight: 500;
-            transition: background-color 0.2s, box-shadow 0.2s;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
         }
-        .btn:hover {
-            background-color: #8B1625;
-            box-shadow: 0 0 8px #FFD700;
+        .nav-bar a:hover {
+            color: #FFD700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
         }
-        .btn:focus {
-            outline: 2px solid #FFD700;
-            outline-offset: 2px;
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 2rem;
+            flex: 1;
+        }
+        .main-content {
+            flex: 3;
+        }
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+        }
+        .carousel {
+            position: relative;
+            max-width: 100%;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .carousel-item {
+            min-width: 100%;
+            position: relative;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        .carousel-caption {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: #FFFFFF;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        .carousel-btn.prev {
+            left: 10px;
+        }
+        .carousel-btn.next {
+            right: 10px;
+        }
+        .video-section {
+            margin: 2rem 0;
+            background: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .video-section iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 8px;
+        }
+        .news-section {
+            margin: 2rem 0;
+        }
+        .news-card {
+            background: #FFFFFF;
+            border: 1px solid #D3D3D3;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        .news-card h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.25rem;
+            color: #A6192E;
+            margin-bottom: 0.5rem;
+        }
+        .news-card a {
+            color: #A6192E;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .news-card a:hover {
+            color: #FFD700;
+        }
+        .sidebar h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.25rem;
+            color: #A6192E;
+            margin-bottom: 1rem;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin-bottom: 0.75rem;
+        }
+        .sidebar a {
+            color: #A6192E;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .sidebar a:hover {
+            color: #FFD700;
         }
         .info-box {
             background: #FFFFFF;
             border: 1px solid #D3D3D3;
-            border-radius: 5px;
-            padding: 1rem;
-            margin: 1.5rem 0.5rem;
-            max-height: 300px;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            max-height: 400px;
             overflow-y: auto;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.5rem;
             align-items: flex-start;
         }
         .info-text {
             flex: 2;
-            min-width: 200px;
+            min-width: 250px;
         }
         .info-text p {
             font-size: 1rem;
             color: #1A1A1A;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             text-align: left;
         }
         .info-image {
             flex: 1;
-            min-width: 150px;
-            position: relative;
+            min-width: 200px;
         }
         .info-image img {
             width: 100%;
             height: auto;
-            border: 2px solid #A6192E;
-            border-radius: 5px;
+            border: 3px solid #A6192E;
+            border-radius: 8px;
         }
         .image-caption {
             font-family: 'Merriweather', serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #A6192E;
             text-align: center;
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
         }
         .footer {
             background-color: #1A1A1A;
             color: #FFFFFF;
-            padding: 1rem;
+            padding: 2rem;
             text-align: center;
             box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
             margin-top: auto;
+        }
+        .footer .social-icons {
+            margin: 1rem 0;
+        }
+        .footer .social-icons a {
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            margin: 0 0.75rem;
+            transition: color 0.2s;
+        }
+        .footer .social-icons a:hover {
+            color: #FFD700;
+        }
+        .newsletter {
+            margin: 1rem 0;
+        }
+        .newsletter input {
+            padding: 0.5rem;
+            border: 1px solid #D3D3D3;
+            border-radius: 5px;
+            margin-right: 0.5rem;
+            width: 200px;
+        }
+        .newsletter button {
+            background-color: #A6192E;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .newsletter button:hover {
+            background-color: #8B1625;
         }
         .highlight {
             color: #FFD700;
@@ -117,22 +284,47 @@
             font-size: 0.9rem;
             color: #D1D5DB;
         }
-        @media (max-width: 640px) {
-            .header h1 {
-                font-size: 1.25rem;
-            }
-            .header p {
-                font-size: 0.875rem;
-            }
-            .btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.875rem;
-            }
+        .back-btn {
+            display: inline-block;
+            background-color: #A6192E;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            margin-bottom: 1rem;
+        }
+        .back-btn:hover {
+            background-color: #8B1625;
+        }
+        @media (max-width: 1024px) {
             .container {
-                padding: 0 0.75rem;
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .nav-bar ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-bar li {
+                margin: 0.5rem 0;
+            }
+            .carousel-item img {
+                height: 250px;
+            }
+            .video-section iframe {
+                height: 250px;
             }
             .info-box {
-                flexSy: column;
+                flex-direction: column;
                 align-items: center;
             }
             .info-image {
@@ -146,32 +338,76 @@
         <h1>XỨ ĐOÀN CÁC THÁNH TỬ ĐẠO VIỆT NAM</h1>
         <p>Giáo Xứ Chánh Tòa Mỹ Tho</p>
     </div>
+    <nav class="nav-bar">
+        <ul>
+            <li><a href="report.html">GỬI PHẢN HỒI</a></li>
+            <li><a href="aaw.html">THẮC MẮC</a></li>
+            <li><a href="mass.html">GIỜ LỄ</a></li>
+            <li><a href="info.html">THÔNG TIN</a></li>
+            <li><a href="https://m.me/tnttchanhtoamytho">NHẮN TIN</a></li>
+        </ul>
+    </nav>
     <div class="container">
-        <h2 class="text-lg font-semibold mb-4">Chào mừng đến với Hệ Thống Xứ Đoàn</h2>
-        <div>
-            <a href="report.html" class="btn">GỬI PHẢN HỒI</a>
-            <a href="aaw.html" class="btn">THẮC MẮC</a>
-            <a href="mass.html" class="btn">GIỜ LỄ</a>
-            <a href="info.html" class="btn">THÔNG TIN</a>
-            <a href="https://m.me/tnttchanhtoamytho" class="btn">NHẮN TIN</a>
+        <div class="main-content">
+            <h2 class="text-xl font-semibold mb-6">Chào mừng đến với Hệ Thống Xứ Đoàn</h2>
+            <div class="carousel">
+                <div class="carousel-inner" id="carouselInner">
+                    <div class="carousel-item">
+                        <img src="pope_leo_xiv.jpg" alt="Đức Tân Giáo Hoàng Leo XIV">
+                        <div class="carousel-caption">Tin tức Giáo Hội</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Thang5_MC.png" alt="Tháng 5 - Tháng Mân Côi">
+                        <div class="carousel-caption">Tháng Mân Côi</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Hoat_dong_xu_doan.png" alt="Hoạt động Xứ Đoàn">
+                        <div class="carousel-caption">Hoạt động Xứ Đoàn</div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+                <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+            </div>
+            <div class="video-section">
+                <h3 class="font-semibold text-lg mb-4">Video</h3>
+                <iframe src="https://www.youtube.com/embed/aEMwyzyWKDE?si=aGlAttMqGK6UdbaN" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="news-section" id="newsContent">
+                <h3 class="font-semibold text-lg mb-4">Tin Tức Mới Nhất</h3>
+                <p>Đang tải tin tức...</p>
+            </div>
+            <div class="info-box" id="infoContent">
+                <div class="info-text">
+                    <h3 class="font-semibold text-lg mb-4">Thông tin</h3>
+                    <p>Đang tải thông tin...</p>
+                </div>
+                <div class="info-image">
+                    <img src="pope_leo_xiv.jpg" alt="Đức Giáo Hoàng Leo XIV">
+                    <div class="image-caption">ĐỨC GIÁO HOÀNG LEO XIV</div>
+                </div>
+            </div>
         </div>
-        <div class="info-box" id="infoContent">
-            <div class="info-text">
-                <p>Đang tải thông tin...</p>
-            </div>
-            <div class="info-image">
-                <img src="pope_leo_xiv.jpg" alt="Đức Giáo Hoàng Leo XIV">
-                <div class="image-caption">ĐỨC GIÁO HOÀNG LEO XIV</div>
-            </div>
+        <div class="sidebar">
+            <h3>TRANG TIN TỨC</h3>
+            <ul>
+                <li><a href="https://www.vatican.va" target="_blank">Tòa Thánh Vatican</a></li>
+                <li><a href="https://www.hdgmvietnam.com" target="_blank">Hội Đồng Giám Mục Việt Nam</a></li>
+                <li><a href="https://giaophanmytho.net" target="_blank">Giáo Phận Mỹ Tho</a></li>
+            </ul>
         </div>
     </div>
     <div class="footer">
         <p class="highlight">Bản quyền © 2024 - Xứ Đoàn Các Thánh Tử Đạo Việt Nam</p>
         <p>Giáo Xứ Chánh Tòa Mỹ Tho - Giáo Phận Mỹ Tho - Việt Nam</p>
         <p class="contact">Địa chỉ: 32 Hùng Vương, Phường 1, Thành phố Mỹ Tho, Tỉnh Tiền Giang</p>
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://m.me/tnttchanhtoamytho" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
+        </div>
         <p>Thiết kế bởi: <span class="highlight">Ban Truyền Thông & Ban Kỹ Thuật - Trưởng Pr.Le.G.Huy</span></p>
     </div>
     <script>
+        // CSV Fetch Script for Info Box
         fetch('text.csv')
             .then(response => {
                 if (!response.ok) throw new Error('Không tìm thấy file text.csv');
@@ -196,10 +432,67 @@
                 }
             })
             .catch(error => {
-                console.error('Lỗi khi tải CSV:', error);
+                console.error('Lỗi khi tải text.csv:', error);
                 const textDiv = document.getElementById('infoContent').querySelector('.info-text');
                 textDiv.innerHTML = '<p>Không thể tải thông tin. Vui lòng kiểm tra file text.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>';
             });
+
+        // CSV Fetch Script for News Section (Only display titles)
+        fetch('news.csv')
+            .then(response => {
+                if (!response.ok) throw new Error('Không tìm thấy file news.csv');
+                return response.text();
+            })
+            .then(data => {
+                Papa.parse(data, {
+                    header: true,
+                    skipEmptyLines: true,
+                    encoding: 'UTF-8',
+                    complete: (result) => {
+                        const newsContent = document.getElementById('newsContent');
+                        newsContent.innerHTML = '<h3 class="font-semibold text-lg mb-4">Tin Tức Mới Nhất</h3>';
+                        const articles = result.data;
+
+                        if (!articles || articles.length === 0) {
+                            newsContent.innerHTML += '<p>Không có tin tức để hiển thị.</p>';
+                        } else {
+                            articles.forEach((article, index) => {
+                                const title = article.title || 'Không có tiêu đề';
+                                if (title) {
+                                    const card = document.createElement('div');
+                                    card.className = 'news-card';
+                                    card.innerHTML = `<h3><a href="news.html?id=${index}">${title}</a></h3>`;
+                                    newsContent.appendChild(card);
+                                }
+                            });
+                        }
+                    },
+                    error: (err) => {
+                        console.error('Lỗi khi phân tích news.csv:', err);
+                        const newsContent = document.getElementById('newsContent');
+                        newsContent.innerHTML = '<h3 class="font-semibold text-lg mb-4">Tin Tức Mới Nhất</h3><p>Không thể tải tin tức. Vui lòng kiểm tra file news.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>';
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Lỗi khi tải news.csv:', error);
+                const newsContent = document.getElementById('newsContent');
+                newsContent.innerHTML = '<h3 class="font-semibold text-lg mb-4">Tin Tức Mới Nhất</h3><p>Không thể tải tin tức. Vui lòng kiểm tra file news.csv hoặc chạy qua server cục bộ (ví dụ: python -m http.server).</p>';
+            });
+
+        // Carousel Script
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const totalSlides = slides.length;
+
+        function moveSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            const carouselInner = document.getElementById('carouselInner');
+            carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(() => moveSlide(1), 5000);
     </script>
 </body>
 </html>

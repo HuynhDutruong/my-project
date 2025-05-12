@@ -14,8 +14,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            position: relative;
             color: #1A1A1A;
         }
         .header {
@@ -36,97 +34,88 @@
         }
         .container {
             flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1200px;
-            padding: 1rem;
-        }
-        .book {
-            position: relative;
-            width: 700px;
-            height: 500px;
-            transform-style: preserve-3d;
-            background: linear-gradient(to bottom, #E2E8F0, #F5F5F5);
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            transform-origin: left center;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 1.2s;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
             background: #FFFFFF;
-            border: 1px solid #E5E7EB;
             border-radius: 8px;
-            overflow: hidden;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .page-content {
+        .content {
             font-size: 1rem;
-            color: #1A1A1A;
             line-height: 1.5;
             text-align: justify;
-            max-height: 55%;
-            overflow-y: auto;
         }
-        .page-images {
+        .content p {
+            margin-bottom: 1rem;
+        }
+        .content-images {
             display: flex;
             justify-content: space-around;
-            width: 100%;
-            margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
-        .page-images img {
+        .content-images img {
             width: 48%;
+            max-width: 400px;
             height: 200px;
             object-fit: cover;
             border-radius: 5px;
             border: 1px solid #DDD;
         }
-        .page.flipped {
-            transform: rotateY(-180deg);
-            box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        .page:not(.flipped) {
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
-        }
         .back-btn {
-            position: fixed;
-            top: 10px;
-            left: 10px;
+            display: inline-block;
             background-color: #A6192E;
             color: #FFFFFF;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s, box-shadow 0.2s;
             font-family: 'Roboto', sans-serif;
             font-weight: 500;
-            font-size: 1rem;
-            z-index: 20;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .back-btn:hover {
             background-color: #8B1625;
-            transform: scale(1.05);
+            box-shadow: 0 0 8px #FFD700;
         }
         .back-btn:focus {
             outline: 2px solid #FFD700;
             outline-offset: 2px;
         }
+    
         .footer {
             background-color: #1A1A1A;
             color: #FFFFFF;
-            padding: 1rem;
+            padding: 1rem 0;
             text-align: center;
             box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
             margin-top: auto;
+        }
+        .footer-nav {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        .footer-nav li {
+            margin: 0 1rem;
+        }
+        .footer-nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+            padding: 0.5rem;
+            display: inline-block;
+        }
+        .footer-nav a:hover {
+            color: #FFD700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
         }
         .highlight {
             color: #FFD700;
@@ -137,24 +126,25 @@
             color: #D1D5DB;
         }
         @media (max-width: 768px) {
-            .book {
-                width: 350px;
-                height: 250px;
-            }
             .header h1 {
                 font-size: 1.5rem;
             }
-            .back-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-                top: 8px;
-                left: 8px;
+            .container {
+                padding: 1rem;
             }
-            .page-content {
+            .content {
                 font-size: 0.85rem;
             }
-            .page-images img {
-                height: 120px;
+            .content-images img {
+                width: 100%;
+                height: 150px;
+            }
+            .footer-nav li {
+                margin: 0 0.5rem;
+            }
+            .footer-nav a {
+                font-size: 0.9rem;
+                padding: 0.4rem;
             }
         }
     </style>
@@ -164,154 +154,46 @@
         <h1>Thông Tin</h1>
         <p>Giáo Xứ Chánh Tòa Mỹ Tho</p>
     </div>
-    <a href="index.html" class="back-btn">Quay Lại</a>
     <div class="container">
-        <div class="book" id="book">
-            <div class="page" style="z-index: 7;">
-                <div class="page-content">
-                    Giáo xứ Chánh Tòa Mỹ Tho, với tước hiệu Đức Mẹ Vô Nhiễm, là trung tâm thiêng liêng của Giáo phận Mỹ Tho, tọa lạc tại số 32 Hùng Vương, phường 1, thành phố Mỹ Tho, tỉnh Tiền Giang. Lịch sử giáo xứ bắt đầu từ năm 1861, khi cộng đoàn Công giáo đầu tiên được hình thành từ những tín hữu bị giam cầm, nhờ ơn Chúa và gương sống của thánh Phêrô Lựu. Đến năm 1876, Đức cha Colombert đã thánh hiến nhà thờ Vĩnh Tường, dâng kính Thánh Tâm Chúa Giêsu. Sau đó, ngày 11 tháng 8 năm 1906, dưới sự hướng dẫn của cha Régnier (Gẫm), ngôi thánh đường hiện tại được khởi công và hoàn thành vào năm 1910. Ngày 24 tháng 11 năm 1960, Đức Giáo hoàng Gioan XXIII ban hành Sắc chỉ Venerabilium Nostrorum, thành lập Giáo phận Mỹ Tho, tách khỏi Tổng Giáo phận Sài Gòn, và nâng nhà thờ này lên hàng Chánh Tòa.
-                </div>
-                <div class="page-images">
-                    <img src="nha_tho_toan_canh.png" alt="Nhà thờ Chánh Tòa Mỹ Tho">
-                    <img src="noi_that_nha_tho.png" alt="Nội thất nhà thờ">
-                </div>
+        <button onclick="history.back()" class="back-btn">Quay Lại</button>
+        <div class="content">
+            <p>Giáo xứ Chánh Tòa Mỹ Tho, với tước hiệu Đức Mẹ Vô Nhiễm Nguyên Tội, là trung tâm thiêng liêng của Giáo phận Mỹ Tho, tọa lạc tại số 32 Hùng Vương, phường 7, thành phố Mỹ Tho, tỉnh Tiền Giang. Lịch sử giáo xứ bắt đầu từ năm 1861, khi cộng đoàn Công giáo đầu tiên được hình thành từ những tín hữu bị giam cầm, nhờ ơn Chúa và gương sống của thánh Phêrô Lựu. Đến năm 1876, Đức cha Colombert đã thánh hiến nhà thờ Vĩnh Tường, dâng kính Thánh Tâm Chúa Giêsu. Sau đó, ngày 11 tháng 8 năm 1906, dưới sự hướng dẫn của cha Régnier (Gẫm), ngôi thánh đường hiện tại được khởi công và hoàn thành vào năm 1910. Ngày 24 tháng 11 năm 1960, Đức Giáo hoàng Gioan XXIII ban hành Sắc chỉ Venerabilium Nostrorum, thành lập Giáo phận Mỹ Tho, tách khỏi Tổng Giáo phận Sài Gòn, và nâng nhà thờ này lên hàng Chánh Tòa.</p>
+            <div class="content-images">
+                <img src="nha_tho_toan_canh.png" alt="Nhà thờ Chánh Tòa Mỹ Tho">
+                <img src="nha_tho_hien_tai.png" alt="Nhà thờ hiện tại">
             </div>
-            <div class="page" style="z-index: 6;">
-                <div class="page-content">
-                    Thánh đường Chánh Tòa Mỹ Tho mang phong cách Romanesque, với chiều cao 24m, dài 53m, rộng 17m, gồm một gian chính và hai gian phụ. Công trình được xây trên nền đất sình, nên chiều cao được điều chỉnh để đảm bảo an toàn, nhờ ơn Chúa soi sáng. Cột tròn chống đỡ mái vòm, được trang trí bằng hoa văn tinh xảo, phản ánh nét đẹp nghệ thuật Công giáo. Các cửa sổ kính màu mô tả các mầu nhiệm Chúa Giêsu và Đức Mẹ, tỏa ánh sáng thánh thiêng, giúp cộng đoàn sống đạo sâu sắc. Sàn lát gạch bông thủ công, giữ gìn dấu ấn thời kỳ đầu thế kỷ 20, là minh chứng cho sự bền vững của đức tin.
-                </div>
-                <div class="page-images">
-                    <img src="nha_tho_thoi_ky_dau.png" alt="Nhà thờ thời kỳ đầu">
-                    <img src="nha_tho_phap_thuoc.png" alt="Nhà thờ Công giáo Việt Nam thời Pháp thuộc">
-                </div>
+            <p>Thánh đường Chánh Tòa Mỹ Tho mang phong cách Hy Lạp – La Mã thời Phục Hưng, với chiều cao 24m, dài 53m, rộng 17m, gồm một gian chính và hai gian phụ. Công trình được xây trên nền đất sình, nên chiều cao được điều chỉnh để đảm bảo an toàn. Cột tròn chống đỡ mái vòm, được trang trí bằng hoa văn tinh xảo, phản ánh nét đẹp nghệ thuật Công giáo. Các cửa sổ kính màu mô tả các mầu nhiệm Chúa Giêsu và Đức Mẹ, tỏa ánh sáng thánh thiêng. Sàn lát gạch bông thủ công, giữ gìn dấu ấn thời kỳ đầu thế kỷ 20. Tháp chuông cũ được Cha Phaolô Nguyễn Minh Chiếu di dời lên tháp phía Nam, sau đó Cha Giuse Chúc xây tháp chuông mới tách biệt khỏi nhà thờ, dùng để báo giờ lễ và trong các dịp trọng đại.</p>
+            <div class="content-images">
+                <img src="noi_that_nha_tho.png" alt="Nội thất nhà thờ">
+                <img src="cua_so_kinh_mau.png" alt="Cửa sổ kính màu">
             </div>
-            <div class="page" style="z-index: 5;">
-                <div class="page-content">
-                    Chánh Tòa Mỹ Tho là nơi cử hành các Thánh Lễ trọng đại như Giáng Sinh, Phục Sinh, và lễ tấn phong giám mục. Giáo xứ tổ chức lớp giáo lý cho thiếu nhi, thanh niên, và người lớn, giúp nuôi dưỡng đức tin. Các hoạt động bác ái, như phát gạo và học bổng cho người nghèo, được thực hiện thường xuyên, thể hiện tinh thần yêu thương của Chúa. Hội Legio Mariae và các đoàn thể khác tụ họp, xây dựng cộng đoàn hiệp nhất. Với hơn 3.600 giáo dân (tính đến 2017), nơi đây là điểm tựa thiêng liêng cho toàn giáo phận.
-                </div>
-                <div class="page-images">
-                    <img src="cua_so_kinh_mau.png" alt="Cửa sổ kính màu">
-                    <img src="thap_chuong_nha_tho.png" alt="Tháp chuông nhà thờ">
-                </div>
+            <p>Chánh Tòa Mỹ Tho là nơi cử hành các Thánh Lễ trọng đại như Giáng Sinh, Phục Sinh, và lễ phong chức linh mục.... Tại nhà thờ Chánh toà Mỹ Tho, Thánh lễ Chúa nhật được cử hành vào các khung giờ: 05:15, 07:30, 16:30, 18:30; Ngày thường: 05:15, 17:45. Giáo xứ luôn tổ chức lớp giáo lý cho thiếu nhi, thanh niên, và người lớn, giúp nuôi dưỡng đức tin. Các hoạt động bác ái, như phát gạo và học bổng cho người nghèo thể hiện tinh thần yêu thương của Chúa giữa lòng xã hội. Hội Legio Mariae, Hội các bà mẹ Công Giáo, Hội Phan Sinh và các đoàn thể khác tụ họp, xây dựng cộng đoàn hiệp nhất. Với hơn 3.600 giáo dân (tính đến 2017), nơi đây là điểm tựa thiêng liêng cho toàn giáo phận.</p>
+            <div class="content-images">
+                <img src="nghi_le_tai_nha_tho.png" alt="Nghi lễ tại nhà thờ">
+                <img src="hoat_dong_cong_dong.png" alt="Hoạt động cộng đồng">
             </div>
-            <div class="page" style="z-index: 4;">
-                <div class="page-content">
-                    Năm 2006, dưới sự dẫn dắt của cha Giacôbê Hà Văn Xung, giáo xứ khởi sự trùng tu thánh đường, nhân kỷ niệm 100 năm thành lập. Công việc bao gồm mở rộng hai gian phụ, sửa tháp chuông, và gia cố phần hư hỏng, giữ nguyên nét kiến trúc Gothic cổ kính. Hoàn thành vào năm 2007, dự án này là lời tạ ơn Chúa, đảm bảo thánh đường tiếp tục là nơi cầu nguyện và sinh hoạt cộng đoàn. Các hoạt động bảo tồn định kỳ được thực hiện để lưu truyền di sản đức tin cho thế hệ mai sau.
-                </div>
-                <div class="page-images">
-                    <img src="nha_tho_sau_cai_tao.png" alt="Nhà thờ sau cải tạo">
-                    <img src="khu_vuc_sinh_hoat.png" alt="Khu vực sinh hoạt cộng đồng">
-                </div>
+            <p>Đức Cha Phêrô Nguyễn Văn Khảm, sinh ngày 2 tháng 10 năm 1952 tại Hà Đông, được thụ phong linh mục ngày 31 tháng 8 năm 1980 tại Tổng Giáo phận Sài Gòn. Ngài làm Giám mục phụ tá TP.HCM từ 2008, rồi được bổ nhiệm làm Giám mục Chánh Tòa Mỹ Tho ngày 26 tháng 7 năm 2014. Với khẩu hiệu “Hãy theo Thầy” (Ga 21:22), ngài hướng dẫn giáo phận thông qua các bài giảng ý nghĩa sâu sắc, chú trọng giáo dục đức tin và hỗ trợ tu sĩ. Cha sở hiện nay là Cha Giacobe Hà Văn Xung, cha luôn tận tụy phục vụ giáo xứ với lòng mến Chúa. Ngài dẫn dắt trùng tu thánh đường năm 2006, mở rộng không gian và nâng cấp tháp chuông, hoàn thành năm 2007, đồng thời tổ chức lớp giáo lý và hoạt động bác ái, xây dựng cộng đoàn vững mạnh.</p>
+            <div class="content-images">
+                <img src="duc_cha_phe_ro.png" alt="Đức Cha Phê-rô trong nghi lễ">
+                <img src="cha_so_giacobe.png" alt="Cha sở Giacôbê Hà Văn Xung">
             </div>
-            <div class="page" style="z-index: 3;">
-                <div class="page-content">
-                    Đức Cha Phê-rô Nguyễn Văn Khảm, sinh ngày 2 tháng 10 năm 1952 tại Hà Đông, được thụ phong linh mục ngày 31 tháng 8 năm 1980 tại Tổng Giáo phận Sài Gòn. Ngài làm Giám mục phụ tá TP.HCM từ 2008, rồi được bổ nhiệm làm Giám mục Chánh Tòa Mỹ Tho ngày 26 tháng 7 năm 2014. Với khẩu hiệu “Hãy theo Thầy” (Ga 21:22), ngài hướng dẫn giáo phận bằng bài giảng sâu sắc, chú trọng giáo dục đức tin và hỗ trợ tu sĩ, là ánh sáng Chúa soi dẫn cho giáo dân.
-                </div>
-                <div class="page-images">
-                    <img src="nghi_le_tai_nha_tho.png" alt="Nghi lễ tại nhà thờ">
-                    <img src="giao_dan_tham_du_le.png" alt="Giáo dân tham dự lễ">
-                </div>
-            </div>
-            <div class="page" style="z-index: 2;">
-                <div class="page-content">
-                    Cha sở Giacôbê Hà Văn Xung, linh mục chánh xứ từ nhiều năm, tận tụy phục vụ giáo dân với lòng mến Chúa. Thụ phong năm 1990, ngài dẫn dắt trùng tu thánh đường năm 2006, mở rộng không gian và nâng cấp tháp chuông, hoàn thành năm 2007. Ngài tổ chức lớp giáo lý, cầu nguyện, và bác ái, là cầu nối giữa giáo dân và Đức Cha, xây dựng cộng đoàn vững mạnh trong đức tin.
-                </div>
-                <div class="page-images">
-                    <img src="nha_tho_toan_canh_van_hoa.png" alt="Nhà thờ toàn cảnh">
-                    <img src="van_hoa_viet_phap.png" alt="Văn hóa Việt-Pháp">
-                </div>
-            </div>
-            <div class="page" style="z-index: 1;">
-                <div class="page-content">
-                    Chánh Tòa Mỹ Tho không chỉ là nơi cử hành Thánh Thể mà còn là di sản đức tin, phản ánh sự giao thoa văn hóa Việt-Pháp. Các nghi lễ như kính Đức Mẹ Vô Nhiễm và lễ thánh du năm 1972 để lại dấu ấn sâu đậm. Nơi đây là điểm hành hương, nơi giáo dân tìm ơn Chúa, sống mến Chúa yêu người, và là ngọn hải đăng đức tin cho miền Tây.
-                </div>
-                <div class="page-images">
-                    <img src="nha_tho_hien_tai.png" alt="Nhà thờ hiện tại">
-                    <img src="hoat_dong_cong_dong.png" alt="Hoạt động cộng đồng">
-                </div>
-            </div>
-            <div class="page" style="z-index: 0;">
-                <div class="page-content">
-                    Đức Cha Phê-rô Nguyễn Văn Khảm, sinh ngày 2 tháng 10 năm 1952 tại Hà Đông, được thụ phong linh mục ngày 31 tháng 8 năm 1980 tại Tổng Giáo phận Sài Gòn. Ngài làm Giám mục phụ tá TP.HCM từ 2008, rồi được bổ nhiệm làm Giám mục Chánh Tòa Mỹ Tho ngày 26 tháng 7 năm 2014. Với khẩu hiệu “Hãy theo Thầy” (Ga 21:22), ngài hướng dẫn giáo phận bằng bài giảng sâu sắc, chú trọng giáo dục đức tin và hỗ trợ tu sĩ, là ánh sáng Chúa soi dẫn cho giáo dân.
-                </div>
-                <div class="page-images">
-                    <img src="duc_cha_phe_ro.png" alt="Đức Cha Phê-rô trong nghi lễ">
-                    <img src="giao_phan_my_tho.png" alt="Giáo phận Mỹ Tho">
-                </div>
-            </div>
-            <div class="page" style="z-index: -1;">
-                <div class="page-content">
-                    Cha sở Giacôbê Hà Văn Xung, linh mục chánh xứ từ nhiều năm, tận tụy phục vụ giáo dân với lòng mến Chúa. Thụ phong năm 1990, ngài dẫn dắt trùng tu thánh đường năm 2006, mở rộng không gian và nâng cấp tháp chuông, hoàn thành năm 2007. Ngài tổ chức lớp giáo lý, cầu nguyện, và bác ái, là cầu nối giữa giáo dân và Đức Cha, xây dựng cộng đoàn vững mạnh trong đức tin.
-                </div>
-                <div class="page-images">
-                    <img src="cha_so_giacobe.png" alt="Nhà thờ sau trùng tu">
-                    <img src="hoat_dong_giao_dan.png" alt="Hoạt động cộng đồng">
-                </div>
-            </div>
-            <div class="page" style="z-index: -2;">
-                <div class="page-content">
-                    Đức Cha Phê-rô Nguyễn Văn Khảm và Cha Sở Giacôbê Hà Văn Xung cùng nhau dẫn dắt Giáo xứ Chánh Tòa Mỹ Tho với tinh thần hiệp thông. Đức Cha định hướng mục vụ cho toàn giáo phận, trong khi Cha Sở quản lý trực tiếp giáo xứ, tổ chức các Thánh Lễ, lớp giáo lý, và hoạt động bác ái. Sự phối hợp này giúp giáo xứ không chỉ là nơi cử hành Thánh Thể mà còn là trung tâm thiêng liêng, nơi giáo dân tìm thấy ơn Chúa và sống đời Kitô hữu đích thực.
-                </div>
-                <div class="page-images">
-                    <img src="cong_dong_giao_dan.png" alt="Cộng đồng giáo dân">
-                    <img src="nghi_thuc_ton_giao.png" alt="Nghi thức tôn giáo">
-                </div>
+            <p>Chánh Tòa Mỹ Tho không chỉ là nơi cử hành Thánh Thể mà còn là di sản đức tin, phản ánh sự giao thoa văn hóa Việt-Pháp. Các nghi lễ như kính Đức Mẹ Vô Nhiễm và lễ thánh du năm 1972 để lại dấu ấn sâu đậm. Nơi đây là điểm hành hương, nơi giáo dân tìm ơn Chúa, sống mến Chúa yêu người, và là ngọn hải đăng đức tin cho miền Tây.</p>
+            <div class="content-images">
+                <img src="nha_tho_toan_canh_van_hoa.png" alt="Nhà thờ toàn cảnh">
+                <img src="van_hoa_viet_phap.png" alt="Văn hóa Việt-Pháp">
             </div>
         </div>
     </div>
     <div class="footer">
         <p class="highlight">Bản quyền © 2024 - Xứ Đoàn Các Thánh Tử Đạo Việt Nam</p>
         <p>Giáo Xứ Chánh Tòa Mỹ Tho - Giáo Phận Mỹ Tho - Việt Nam</p>
-        <p class="contact">Địa chỉ: 32 Hùng Vương, Phường 1, Thành phố Mỹ Tho, Tỉnh Tiền Giang</p>
+        <p class="contact">Địa chỉ: 32 Hùng Vương, Phường 7, Thành phố Mỹ Tho, Tỉnh Tiền Giang</p>
         <p>Thiết kế bởi: <span class="highlight">Ban Truyền Thông & Ban Kỹ Thuật</span> - Trưởng Pr.Le.G.Huy</p>
+        <nav class="nav-bar">
+            <ul class="footer-nav">
+                <li><a href="index.html">Quay Lại</a></li>
+            </ul>
+        </nav>
     </div>
-    <script>
-        const book = document.getElementById('book');
-        const pages = book.querySelectorAll('.page');
-        let currentPage = 0;
-
-        function flipPage() {
-            if (currentPage < pages.length - 1) {
-                pages[currentPage].classList.add('flipped');
-                currentPage++;
-            }
-        }
-
-        function flipBack() {
-            if (currentPage > 0) {
-                pages[currentPage - 1].classList.remove('flipped');
-                currentPage--;
-            }
-        }
-
-        book.addEventListener('click', (e) => {
-            const rect = book.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            if (clickX > rect.width / 2) {
-                flipPage();
-            } else if (clickX < rect.width / 2 && clickX > 50) {
-                flipBack();
-            }
-        });
-
-        let touchStartX = 0;
-        book.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-        });
-        book.addEventListener('touchend', (e) => {
-            const touchEndX = e.changedTouches[0].clientX;
-            if (touchEndX < touchStartX - 50) {
-                flipPage();
-            } else if (touchEndX > touchStartX + 50) {
-                flipBack();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') flipPage();
-            if (e.key === 'ArrowLeft') flipBack();
-        });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c9ef1a0be8afbf',t:'MTc0NjcxNzU1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
